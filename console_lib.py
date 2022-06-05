@@ -8,48 +8,25 @@
 files: victory.py, bill.py, main.py
 dirs: modules, packages
 
-Внесены изменения в функцию
+Внесены изменения:
+    создана функция my_save_list_to_file() - cоздаёт файл listdir.txt
+    (если он есть то пересоздает)
+    и сохраняет в него содержимое рабочей директории
 
 
 """
 
 
 """
+
 БИБЛИОТЕКА ДЛЯ РАБОТЫ С ФАЙЛАМИ
 
-- создать папку
-после выбора пользователь вводит название папки, создаем её в рабочей директории;
-- удалить (файл/папку)
-после выбора пользователь вводит название папки или файла, удаляем из рабочей директории если такой есть;
-- копировать (файл/папку)
-после выбора пользователь вводит название папки/файла и новое название папки/файла. Копируем;
-- просмотр содержимого рабочей директории
-вывод всех объектов в рабочей папке;
-- посмотреть только папки
-вывод только папок которые находятся в рабочей папке;
-- посмотреть только файлы
-вывод только файлов которые находятся в рабочей папке;
-- просмотр информации об операционной системе
-вывести информацию об операционной системе (можно использовать пример из 1-го урока);
-- создатель программы
-вывод информации о создателе программы;
-- играть в викторину
-запуск игры викторина из предыдущего дз;
-- мой банковский счет
-запуск программы для работы с банковским счетом из предыдущего дз
-(задание учебное, после выхода из программы управлением счетом в главной программе
-сумму и историю покупок можно не запоминать);
-- смена рабочей директории (*необязательный пункт)
-усложненное задание пользователь вводит полный /home/user/...
-или относительный user/my/... путь. Меняем рабочую директорию на ту что ввели и работаем уже в ней;
-- выход
-выход из программы.
-Так же можно добавить любой другой интересный или полезный функционал по своему желанию
-После выполнения какого либо из пунктов снова возвращаемся в меню, пока пользователь не выберет выход
 """
+
 import os
 import shutil
 import sys
+
 
 def correct_file_name(name):
     """
@@ -173,16 +150,16 @@ def my_save_list_to_file():
    и сохраняет в него содержимое рабочей директории следующим образом:
    сначала все файлы, потом все папки
 
-    :return: None
+    :return: возвращает текст, который записан в файл
     """
     FILE_NAME = 'listdir.txt'
-    txt = 'folders: ' + ', '.join(my_list_only_folders()) +'\n'
+    txt = 'folders: ' + ', '.join(my_list_only_folders()) + '\n'
     txt = txt + 'files: ' + ', '.join(my_list_only_files())
 
     with open(FILE_NAME, 'w') as f:
         f.write(txt)
 
-    return None
+    return txt
 
 
 def my_copy(src_name='', dist_name=''):
@@ -240,7 +217,7 @@ def my_delete(name=''):
     success = False
 
     # Если имя файла не задано, запрашиваем
-    if len(name) == 0 :
+    if len(name) == 0:
         print()
         print(my_list_dir())     # выводим содержимое текущей папки
         name = input('Введите имя файла/папки для удаления: ')
@@ -266,7 +243,6 @@ def my_delete(name=''):
             print('Возникла ошибка. Проверьте корректность введенных имен')
 
     return success
-
 
 
 def my_os_info():
@@ -328,176 +304,9 @@ def my_chdir(path=''):
 
     return success
 
+
 def good_buy():
 
     print('*'*15, 'До новых встреч', '*'*15)
 
     return '*'*47
-
-# good_buy()
-
-"""
-Тестирование функции correct_file_name():
-    # test_names = ['america', 'readme.txt', 'Queen', '1asdf', 'qwertyuiopasdfghj', 'index.dat']
-    # print('Тестирование функции correct_file_name():')
-    # for str in test_names:
-    #     print(str, ':', correct_file_name(str))
--------------
-Результат работы: 
--------------
-Тестирование функции correct_file_name():
-america : True
-readme.txt : True
-Queen : False
-1asdf : False
-qwertyuiopasdfghj : False
-index.dat : True
-
-
-
-Тестирование функции my_create_folder()
-    # while True:
-    #     my_create_folder()
-
--------------
-Результат работы: 
--------------
-папки создаются, неверные вводы обрабатываются корректно
-
-
-
-
-Тестирование функции my_list_dir()
-
-    # print(my_list_dir())
--------------
-Результат работы: 
--------------
-['LICENSE', 'console_lib.py', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
-    # print(my_list_dir('/Users/nikolayagafonov/Music'))
--------------
-Результат работы: 
--------------
-['Audio Music Apps', 'Music', '.DS_Store', '.localized', 'Ableton', 'iTunes', 'GarageBand']
-
-
-
-Проверка функции my_list_only_folders()
-     # print(my_list_only_folders())
--------------
-Результат работы: 
--------------
-['Test1', 'Test2', '.git', '.idea']
-
-
-Проверка функции my_list_only_files()
-     # print(my_list_only_files())
--------------
-Результат работы: 
--------------
-['LICENSE', 'console_lib.py', '.gitignore', 'console_file_manager.py']
-
-
-Проверка функции my_copy() для копирования папок: 
-    # my_copy()
--------------
-Результат работы: 
---------------
-/для существующих имен/
-
-['LICENSE', 'console_lib.py', 'test', 'book.txt', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: test
-Введите имя файла/папки, в который копируем: test1
-Создана пустая папка test1
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
--------------
-/для несуществующих имен/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: Папка
-Введите имя файла/папки, в который копируем: тест2
-Возникла ошибка. Проверьте корректность введенных имен
-
--------------
-/копирование файла в папку/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: book.txt
-Введите имя файла/папки, в который копируем: test
-Копирование завершено
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
--------------
-/копирование файла в файл/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: book.txt
-Введите имя файла/папки, в который копируем: fiction.txt
-Копирование завершено
-['LICENSE', 'console_lib.py', 'test', 'fiction.txt', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
-
-
-
-Проверка функции my_delete() для удаления файлов и папок
--------------
-Результат работы: 
---------------
-/удаление папки c содержимым/
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-Введите имя файла/папки для удаления: Test2
-Выполнено удаление.
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', '.git', 'main.py', '.idea']
---------------
-/удаление файла/
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', 'rrr.txt', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-Введите имя файла/папки для удаления: rrr.txt
-Выполнено удаление.
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-
-
-
-
-
-Проверка функции my_os_info()
-     # print(my_os_info())
--------------
-Результат работы: 
--------------
-My OS is darwin (posix)
-
-
-
-Проверка функции my_get_username()
-     # print(os.path.expanduser('~'))
-     # print(my_get_username())
--------------
-Результат работы: 
--------------
-/Users/nikolayagafonov
-nikolayagafonov
-
-
-
-
-Проверка функции my_chdir()
-    # my_chdir()
- -------------
-Результат работы: 
--------------
- переход по абсолютному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: /Users/nikolayagafonov/Music
-/Users/nikolayagafonov/Music
-
- переход по относительному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: Test2
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1/Test2
-
-переход по ошибочному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: ttt
-Возникла ошибка. Проверьте корректность введенного пути
-"""

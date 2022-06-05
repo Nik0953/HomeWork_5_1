@@ -85,6 +85,26 @@ Process finished with exit code 0
 folders: .pytest_cache, Test1, __pycache__, venv, .git, .idea
 files: LICENSE, console_lib.py, test_python.py, account_history.json, book.txt, bank.py, test_filemanager.py, .gitignore, victory.py, readme.txt, main.py, listdir.txt
 
++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
+Задание 7.дополнительное
+тесты для всех новых функций
+
+в модуль test_filemanager.py добавлена функция test_my_save_list_to_file()
+создан модуль test_bank.py для тестирование чистой и грязной функции
+
+============================= test session starts ==============================
+collecting ... collected 3 items
+
+test_filemanager.py::test_correct_file_name PASSED                       [ 33%]
+test_filemanager.py::test_my_copy PASSED                                 [ 66%]Копирование завершено
+['LICENSE', 'console_lib.py', '.pytest_cache', 'test_python.py', 'account_history.json', 'book.txt', 'test_bank.py', 'Test1', 'bank.py', '__pycache__', 'test_filemanager.py', '.gitignore', 'victory.py', 'readme.txt', 'venv', '.git', 'main.py', 'ytrewq_test.txt', 'listdir.txt', 'qwerty_test.txt', '.idea']
+
+test_filemanager.py::test_my_save_list_to_file PASSED                    [100%]
+
+============================== 3 passed in 0.03s ===============================
+
+Process finished with exit code 0
 
 
 

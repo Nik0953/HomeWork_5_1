@@ -345,3 +345,4 @@ def play_bank(account=0, history=[]):
             repeat_loop = False
 
     return None
+
