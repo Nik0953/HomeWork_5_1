@@ -1,4 +1,20 @@
 """
+Урок 7 ЗАДАНИЕ 2
+5. В программе консольный файловый менеджер есть пункт "просмотр содержимого рабочей директории";
+6. Добавить пункт "сохранить содержимое рабочей директории в файл";
+7. При выборе этого пункта создать файл listdir.txt (если он есть то пересоздать)
+   и сохранить туда содержимое рабочей директории следующим образом:
+   сначала все файлы, потом все папки, пример как может выглядеть итоговый файл.
+files: victory.py, bill.py, main.py
+dirs: modules, packages
+
+Внесены изменения в функцию
+
+
+"""
+
+
+"""
 БИБЛИОТЕКА ДЛЯ РАБОТЫ С ФАЙЛАМИ
 
 - создать папку
@@ -146,9 +162,27 @@ def my_list_only_files(path_name=''):
 
     total_f_list = os.listdir(path_name)
 
-    only_files_list = list(filter(lambda f: True if not os.path.isdir(f) else False, total_f_list))
+    only_files_list = list(filter(lambda f: True if os.path.isfile(f) else False, total_f_list))
 
     return only_files_list
+
+
+def my_save_list_to_file():
+    """
+    cоздаёт файл listdir.txt (если он есть то пересоздает)
+   и сохраняет в него содержимое рабочей директории следующим образом:
+   сначала все файлы, потом все папки
+
+    :return: None
+    """
+    FILE_NAME = 'listdir.txt'
+    txt = 'folders: ' + ', '.join(my_list_only_folders()) +'\n'
+    txt = txt + 'files: ' + ', '.join(my_list_only_files())
+
+    with open(FILE_NAME, 'w') as f:
+        f.write(txt)
+
+    return None
 
 
 def my_copy(src_name='', dist_name=''):
@@ -357,8 +391,8 @@ index.dat : True
 ['Test1', 'Test2', '.git', '.idea']
 
 
-Проверка функции my_list_only_folders()
-     # print(my_list_only_folders())
+Проверка функции my_list_only_files()
+     # print(my_list_only_files())
 -------------
 Результат работы: 
 -------------

@@ -1,12 +1,16 @@
 Новое в branch 'lesson_7':
 
+++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++
 Задание 7.1 - про банк - выполнено в доработанном файле 'bank.py'
-запускается из 'bank_main.py'
+запускается из 'main.py' (в начальном меню выбрать '10')
+
+все изменения в файле bank.py описаны в комментариях в начале этого файла.
 
 -------------------------
 Результаты работы программы:
 -------------------------
-"/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1/venv/bin/python" "/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1/bank_main.py"
+
 Добрый день!
 Пожалуйста, выберите действие:
 1 - пополнение счета
@@ -64,8 +68,22 @@
 Process finished with exit code 0
 
 
+файл 'account_history.json' создается, список списков в него записывается и считывается.
 
++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
+Задание 7.2 - про файловый менеджер - выполнено в доработанном файле 'console_lib.py'
+запускается из 'main.py' (в начальном меню выбрать '12')
 
+все изменения в файле 'console_lib.py' описаны в комментариях в начале этого файла.
+
+-------------------------
+Результаты работы программы:
+-------------------------
+содержимое файла listdi.txt :
+
+folders: .pytest_cache, Test1, __pycache__, venv, .git, .idea
+files: LICENSE, console_lib.py, test_python.py, account_history.json, book.txt, bank.py, test_filemanager.py, .gitignore, victory.py, readme.txt, main.py, listdir.txt
 
 
 
