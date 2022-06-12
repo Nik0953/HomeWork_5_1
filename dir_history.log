@@ -1,0 +1,60 @@
+12.06.2022 19:16:11:  my_create_folder
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, .idea
+12.06.2022 19:16:42:  my_delete
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, Test2, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:16:42:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, Test2, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:16:56:  my_delete
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, Test2, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:16:56:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, Test2, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:17:07:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:17:31:  my_copy
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:17:31:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:18:32:  my_copy
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:18:32:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:19:30:  my_copy
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:19:30:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:19:47:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:19:57:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:00:  my_list_only_folders
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:01:  my_list_only_files
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:06:  my_os_info
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:09:  my_get_username
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:22:  my_save_list_to_file
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:22:  my_list_only_folders
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:22:  my_list_only_files
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:20:25:  good_buy
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, tst44, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_copy
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, qwerty_test.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_list_dir
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, ytrewq_test.txt, listdir.txt, qwerty_test.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_save_list_to_file
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_list_only_folders
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_list_only_files
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_save_list_to_file
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, zyx999.tst, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_list_only_folders
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, zyx999.tst, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
+12.06.2022 19:21:38:  my_list_only_files
+LICENSE, console_lib.py, .pytest_cache, test_python.py, account_history.json, zyx999.tst, book.txt, test_bank.py, Test1, bank.py, __pycache__, test_filemanager.py, .gitignore, victory.py, readme.txt, venv, .git, main.py, listdir.txt, dir_history.log, .idea
