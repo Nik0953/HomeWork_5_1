@@ -43,19 +43,22 @@ f_dict = {
     '9': ['- играть в викторину', play_victory],
     '10': ['- мой банковский счет', play_bank],
     '11': ['- смена рабочей директории', cons.my_chdir],
-    '12': ['- выход', cons.good_buy]
+    '12': ['- сохранить содержимое рабочей директории в файл', cons.my_save_list_to_file],
+    '13': ['- выход', cons.good_buy]
 }
 
-# печатаем список выбираемых действий
-for k in f_dict.keys():
-    print(k, f_dict[k][0])
+choiсe = '99'
+while choiсe != '13':
+    # печатаем список выбираемых действий
+    for k in f_dict.keys():
+        print(k, f_dict[k][0])
 
-choiсe = input('сделайте выбор: ')
+    choiсe = input('сделайте выбор: ')
 
-# осуществляем выбранное действие
-if choiсe in f_dict.keys():
-    f = f_dict[choiсe][1]
-    result = f()
-    print(result)
-else:
-    print('Неверный выбор')
+    # осуществляем выбранное действие
+    if choiсe in f_dict.keys():
+        f = f_dict[choiсe][1]
+        result = f()
+        print(result)
+    else:
+        print('Неверный выбор')

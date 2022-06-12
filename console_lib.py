@@ -1,39 +1,74 @@
-"""
-БИБЛИОТЕКА ДЛЯ РАБОТЫ С ФАЙЛАМИ
-
-- создать папку
-после выбора пользователь вводит название папки, создаем её в рабочей директории;
-- удалить (файл/папку)
-после выбора пользователь вводит название папки или файла, удаляем из рабочей директории если такой есть;
-- копировать (файл/папку)
-после выбора пользователь вводит название папки/файла и новое название папки/файла. Копируем;
-- просмотр содержимого рабочей директории
-вывод всех объектов в рабочей папке;
-- посмотреть только папки
-вывод только папок которые находятся в рабочей папке;
-- посмотреть только файлы
-вывод только файлов которые находятся в рабочей папке;
-- просмотр информации об операционной системе
-вывести информацию об операционной системе (можно использовать пример из 1-го урока);
-- создатель программы
-вывод информации о создателе программы;
-- играть в викторину
-запуск игры викторина из предыдущего дз;
-- мой банковский счет
-запуск программы для работы с банковским счетом из предыдущего дз
-(задание учебное, после выхода из программы управлением счетом в главной программе
-сумму и историю покупок можно не запоминать);
-- смена рабочей директории (*необязательный пункт)
-усложненное задание пользователь вводит полный /home/user/...
-или относительный user/my/... путь. Меняем рабочую директорию на ту что ввели и работаем уже в ней;
-- выход
-выход из программы.
-Так же можно добавить любой другой интересный или полезный функционал по своему желанию
-После выполнения какого либо из пунктов снова возвращаемся в меню, пока пользователь не выберет выход
-"""
 import os
 import shutil
 import sys
+import datetime
+
+"""
+Урок 8
+
+0. В проекте ""Консольный файловый менеджер"" перейти на новую ветку для добавления нового функционала;
+1. Где это возможно переписать код с использованием генераторов и тернарных операторов;
+2. Там где возможны исключительные ситуации добавить обработку исключений;
+3. *Где это возможно применить декораторы.
+Иногда может быть так, что применить новые возможности негде, особенно декораторы - это нормально.
+
+
+Внесены изменения:
+    строка 36 -  функция-декоратор
+    строка 59 -  тернарный оператор
+    строка 104 - переписана функция my_create_folder() - обработка исключений
+    строка 163 - тернарный оператор
+    строка 167 - переписана функция my_list_dir() - обработка исключений
+    строка 192 - генератор списков
+    строка 271 - переписана функция my_copy() - обработка исключений
+    строка 305 - переписана функция my_delete() - обработка исключений
+
+"""
+
+
+"""
+
+БИБЛИОТЕКА ДЛЯ РАБОТЫ С ФАЙЛАМИ
+
+"""
+
+
+
+def log_decarator(file_function):
+    """
+    применяется для всех функций, работающих с файлами в директории,
+    сохраняет [добавляет] в файл dir_history.log выполненные команды и их результат
+    """
+
+    # inner - итоговая функция с новым поведение
+
+    def inner(*args, **kwargs):
+        # Запоминаем время операции
+        txt = str(datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S'))
+
+        # Запоминаем название операции
+        txt = txt + ':  ' + file_function.__name__ + '\n'
+
+        # Запоминаем новое состояние директории
+        txt = txt +  ', '.join(os.listdir()) + '\n'
+
+        # пишем лог в файл:
+        FILE_NAME = 'dir_history.log'
+        # если файл уже есть, то добавляем в него, иначе пишем в новый файл
+        #   ========   тернарный оператор   ========
+        file_attr = 'a' if os.path.exists(FILE_NAME) else 'w'
+        with open(FILE_NAME, file_attr) as file_to_write:
+            file_to_write.write(txt)
+
+        result = file_function(*args, **kwargs)
+        # поведение после вызова
+        pass
+
+        return result
+
+    # возвращается функция inner с новым поведением
+    return inner
+
 
 def correct_file_name(name):
     """
@@ -66,6 +101,7 @@ def correct_file_name(name):
     return name_is_correct
 
 
+@log_decarator
 def my_create_folder(folder_name=''):
     """
     создать папку
@@ -85,19 +121,33 @@ def my_create_folder(folder_name=''):
         folder_name = input('Введите имя новой папки: ')
 
     # папка создается, если имя корректно и если папки c таким именем еще нет
+    #
+    # if correct_file_name(folder_name):
+    #     if not (os.path.isdir(folder_name)):
+    #         os.mkdir(folder_name)
+    #         success = True
+    #     else:
+    #         print('такая папка \'', folder_name, '\' уже существует.')
+    # else:
+    #     print('Некорректное имя папки: \'', folder_name, '\'')
 
-    if correct_file_name(folder_name):
-        if not (os.path.isdir(folder_name)):
-            os.mkdir(folder_name)
-            success = True
-        else:
-            print('такая папка \'', folder_name, '\' уже существует.')
-    else:
-        print('Некорректное имя папки: \'', folder_name, '\'')
+    try:
+        os.mkdir(folder_name)
+        success = True
+    except FileExistsError:
+        print('Ошибка. Объект с таким именем уже существует')
+        print('Папка не создана')
+    except FileNotFoundError:
+        print('Ошибка пути к папке')
+        print('Папка не создана')
+    except Exception as exc:
+        print(' Неизвестная ошибка', exc)
+        print('Папка не создана')
 
     return success
 
 
+@log_decarator
 def my_list_dir(path_name=''):
     """
     просмотр содержимого папки path_name
@@ -108,11 +158,22 @@ def my_list_dir(path_name=''):
     """
 
     # если путь не передан, то возвращаем содержимое текущей папки
-    if len(path_name) == 0:
-        path_name = os.getcwd()
-    return os.listdir(path_name)
+    # if len(path_name) == 0:
+    #     path_name = os.getcwd()
+    #   ========   тернарный оператор   ========
+    path_name = os.getcwd() if len(path_name) == 0 else path_name
+
+    lstdr = None
+
+    try:
+        lstdr = os.listdir(path_name)
+    except Exception as exc:
+        print('Ошибка', exc, 'Не удалось получить содержимое папки', path_name)
+
+    return lstdr
 
 
+@log_decarator
 def my_list_only_folders(path_name=''):
     """
     посмотреть только папки
@@ -127,11 +188,14 @@ def my_list_only_folders(path_name=''):
 
     total_f_list = os.listdir(path_name)
 
-    only_folders_list = list(filter(lambda f: True if os.path.isdir(f) else False, total_f_list))
+    # only_folders_list = list(filter(lambda f: True if os.path.isdir(f) else False, total_f_list))
+    #   =======   генератор списков   =======
+    only_folders_list = [f for f in total_f_list if os.path.isdir(f)]
 
     return only_folders_list
 
 
+@log_decarator
 def my_list_only_files(path_name=''):
     """
     посмотреть только  файлы
@@ -146,11 +210,33 @@ def my_list_only_files(path_name=''):
 
     total_f_list = os.listdir(path_name)
 
-    only_files_list = list(filter(lambda f: True if not os.path.isdir(f) else False, total_f_list))
+    # only_files_list = list(filter(lambda f: True if os.path.isfile(f) else False, total_f_list))
+    #   =======   генератор списков   =======
+    only_files_list = [f for f in total_f_list if os.path.isfile(f)]
 
     return only_files_list
 
 
+@log_decarator
+def my_save_list_to_file():
+    """
+    cоздаёт файл listdir.txt (если он есть то пересоздает)
+   и сохраняет в него содержимое рабочей директории следующим образом:
+   сначала все файлы, потом все папки
+
+    :return: возвращает текст, который записан в файл
+    """
+    FILE_NAME = 'listdir.txt'
+    txt = 'folders: ' + ', '.join(my_list_only_folders()) + '\n'
+    txt = txt + 'files: ' + ', '.join(my_list_only_files())
+
+    with open(FILE_NAME, 'w') as f:
+        f.write(txt)
+
+    return txt
+
+
+@log_decarator
 def my_copy(src_name='', dist_name=''):
     """
     копировать (файл/папку)
@@ -174,26 +260,28 @@ def my_copy(src_name='', dist_name=''):
         src_name = input('Введите имя исходного файла/папки: ')
         dist_name = input('Введите имя файла/папки, в который копируем: ')
 
-    # Если источник копирования - папка,
-    # То просто создаем копию - пустую папку
-    if os.path.isdir(src_name):
-        my_create_folder(dist_name)  # требования к имени жёстче обычных
-        print('Создана пустая папка', dist_name)
+    # # Если источник копирования - папка,
+    # # То просто создаем копию - пустую папку
+    # if os.path.isdir(src_name):
+    #     my_create_folder(dist_name)  # требования к имени жёстче обычных
+    #     print('Создана пустая папка', dist_name)
+    #     print(my_list_dir())
+    #     success = True
+    # else:
+    #     # источник - файл
+    try:
+        shutil.copy(src_name, dist_name)
+        print('Копирование завершено')
         print(my_list_dir())
         success = True
-    else:
-        # источник - файл
-        try:
-            shutil.copy(src_name, dist_name)
-            print('Копирование завершено')
-            print(my_list_dir())
-            success = True
-        except:
-            print('Возникла ошибка. Проверьте корректность введенных имен')
-
+    except FileNotFoundError:
+        print('Ошибка имени файла. Копирование не выполнено.')
+    except Exception as exc:
+        print('Неизвестная ошибка', exc, '. Копирование не выполнено.')
     return success
 
 
+@log_decarator
 def my_delete(name=''):
     """
     удалить (файл/папку)
@@ -206,35 +294,35 @@ def my_delete(name=''):
     success = False
 
     # Если имя файла не задано, запрашиваем
-    if len(name) == 0 :
+    if len(name) == 0:
         print()
         print(my_list_dir())     # выводим содержимое текущей папки
         name = input('Введите имя файла/папки для удаления: ')
 
-    # Если удаляемый объект - папка,
-    # то удаляем папку вместе с содержимым
+    # выбираем функцию для удаления
+    # узнаём, чем является удаляемый объект 'name': файлом или папкой
+    # если 'name' - не файл и не папка , будем печатать диагностику
+
     if os.path.isdir(name):
-        try:
-            shutil.rmtree(name)
-            print('Выполнено удаление.')
-            print(my_list_dir())
-            success = True
-        except:
-            print('Возникла ошибка. Проверьте корректность введенных имен')
-    # и если удаляемый объект -файл, то удаляем файл
+        f = shutil.rmtree
     elif os.path.isfile(name):
-        try:
-            os.remove(name)
-            print('Выполнено удаление.')
-            print(my_list_dir())
-            success = True
-        except:
-            print('Возникла ошибка. Проверьте корректность введенных имен')
+        f = os.remove
+    else:
+        print(name, 'не является ни папкой, ни файлом. Удаление не выполнено')
+        return False
+
+    try:
+        f(name)
+        print('Выполнено удаление', name)
+        print(my_list_dir())
+        success = True
+    except Exception as exc:
+        print('Возникла ошибка', exc)
 
     return success
 
 
-
+@log_decarator
 def my_os_info():
     """
     просмотр информации об операционной системе
@@ -245,6 +333,7 @@ def my_os_info():
     return info
 
 
+@log_decarator
 def my_get_username():
     """
     возвращает строку с именем пользователя
@@ -259,6 +348,7 @@ def my_get_username():
     return info
 
 
+@log_decarator
 def my_chdir(path=''):
     """
     смена рабочей директории
@@ -289,181 +379,15 @@ def my_chdir(path=''):
             os.chdir(path)
             print(os.getcwd())
             success = True
-        except:
-            print('Возникла ошибка. Проверьте корректность введенного пути')
+        except Exception as exc:
+            print('Возникла ошибка', exc, '. Проверьте корректность введенного пути')
 
     return success
 
+
+@log_decarator
 def good_buy():
 
     print('*'*15, 'До новых встреч', '*'*15)
 
     return '*'*47
-
-# good_buy()
-
-"""
-Тестирование функции correct_file_name():
-    # test_names = ['america', 'readme.txt', 'Queen', '1asdf', 'qwertyuiopasdfghj', 'index.dat']
-    # print('Тестирование функции correct_file_name():')
-    # for str in test_names:
-    #     print(str, ':', correct_file_name(str))
--------------
-Результат работы: 
--------------
-Тестирование функции correct_file_name():
-america : True
-readme.txt : True
-Queen : False
-1asdf : False
-qwertyuiopasdfghj : False
-index.dat : True
-
-
-
-Тестирование функции my_create_folder()
-    # while True:
-    #     my_create_folder()
-
--------------
-Результат работы: 
--------------
-папки создаются, неверные вводы обрабатываются корректно
-
-
-
-
-Тестирование функции my_list_dir()
-
-    # print(my_list_dir())
--------------
-Результат работы: 
--------------
-['LICENSE', 'console_lib.py', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
-    # print(my_list_dir('/Users/nikolayagafonov/Music'))
--------------
-Результат работы: 
--------------
-['Audio Music Apps', 'Music', '.DS_Store', '.localized', 'Ableton', 'iTunes', 'GarageBand']
-
-
-
-Проверка функции my_list_only_folders()
-     # print(my_list_only_folders())
--------------
-Результат работы: 
--------------
-['Test1', 'Test2', '.git', '.idea']
-
-
-Проверка функции my_list_only_folders()
-     # print(my_list_only_folders())
--------------
-Результат работы: 
--------------
-['LICENSE', 'console_lib.py', '.gitignore', 'console_file_manager.py']
-
-
-Проверка функции my_copy() для копирования папок: 
-    # my_copy()
--------------
-Результат работы: 
---------------
-/для существующих имен/
-
-['LICENSE', 'console_lib.py', 'test', 'book.txt', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: test
-Введите имя файла/папки, в который копируем: test1
-Создана пустая папка test1
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
--------------
-/для несуществующих имен/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: Папка
-Введите имя файла/папки, в который копируем: тест2
-Возникла ошибка. Проверьте корректность введенных имен
-
--------------
-/копирование файла в папку/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: book.txt
-Введите имя файла/папки, в который копируем: test
-Копирование завершено
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
--------------
-/копирование файла в файл/
-['LICENSE', 'console_lib.py', 'test', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-Введите имя исходного файла/папки: book.txt
-Введите имя файла/папки, в который копируем: fiction.txt
-Копирование завершено
-['LICENSE', 'console_lib.py', 'test', 'fiction.txt', 'book.txt', 'test1', '.gitignore', 'console_file_manager.py', '.git', '.idea']
-
-
-
-
-Проверка функции my_delete() для удаления файлов и папок
--------------
-Результат работы: 
---------------
-/удаление папки c содержимым/
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-Введите имя файла/папки для удаления: Test2
-Выполнено удаление.
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', '.git', 'main.py', '.idea']
---------------
-/удаление файла/
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', 'rrr.txt', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-Введите имя файла/папки для удаления: rrr.txt
-Выполнено удаление.
-['LICENSE', 'console_lib.py', 'book.txt', 'Test1', 'bank.py', '.gitignore', 'victory.py', 'readme.txt', 'Test2', '.git', 'main.py', '.idea']
-
-
-
-
-
-Проверка функции my_os_info()
-     # print(my_os_info())
--------------
-Результат работы: 
--------------
-My OS is darwin (posix)
-
-
-
-Проверка функции my_get_username()
-     # print(os.path.expanduser('~'))
-     # print(my_get_username())
--------------
-Результат работы: 
--------------
-/Users/nikolayagafonov
-nikolayagafonov
-
-
-
-
-Проверка функции my_chdir()
-    # my_chdir()
- -------------
-Результат работы: 
--------------
- переход по абсолютному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: /Users/nikolayagafonov/Music
-/Users/nikolayagafonov/Music
-
- переход по относительному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: Test2
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1/Test2
-
-переход по ошибочному адресу:
-/Users/nikolayagafonov/Desktop/Python progs/HomeWork_5_1
-['LICENSE', 'console_lib.py', 'Test1', '.gitignore', 'console_file_manager.py', 'Test2', '.git', '.idea']
-Введите адрес папки для перехода: ttt
-Возникла ошибка. Проверьте корректность введенного пути
-"""

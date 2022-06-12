@@ -1,0 +1,2 @@
+folders: .pytest_cache, Test1, __pycache__, venv, .git, .idea
+files: LICENSE, console_lib.py, test_python.py, account_history.json, zyx999.tst, book.txt, test_bank.py, bank.py, test_filemanager.py, .gitignore, victory.py, readme.txt, main.py, listdir.txt, dir_history.log

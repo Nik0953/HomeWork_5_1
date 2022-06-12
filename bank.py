@@ -1,6 +1,38 @@
 """
+Задание к уроку 7:
+
+ЗАДАНИЕ 1
+1. В подпрограмме Мой банковский счет;
+2. Добавить сохранение суммы счета в файл.
+
+    - создается файл 'account_history.json' для хранения истории операций и остатков по счету;
+    остаток на счете хранится в последнем элементе списка, последней строки этого файла
+    - для получения остатка из файла написана функция get_account()
+    - написана функция initialisation() - для создания файла с начальным остатком == 0
+    и историей операций
+    - написана функция operation_to_file(str_lst) для добавления в файл новых операций
+    - переписаны функции для refill() и buy() для структурного хранения
+    информации о движении по счету
+    - изменена функция get_report() - отчет выводится в новом формате
+    - добавлена библиотека для работы со временем
+
+При первом открытии программы на счету 0
+После того как мы воспользовались программой и вышли сохранить сумму счета
+При следующем открытии программы прочитать сумму счета, которую сохранили
+...
+3. Добавить сохранение истории покупок в файл
+
+При первом открытии программы истории нет.
+После того как мы что нибудь купили и закрыли программу сохранить историю покупок.
+При следующем открытии программы прочитать историю и новые покупки уже добавлять к ней;
+...
+4. Формат сохранения количество файлов и способ можно выбрать самостоятельно.
+
+"""
 
 
+
+"""
 1. пополнение счета
 при выборе этого пункта пользователю предлагается ввести сумму на сколько пополнить счет
 после того как пользователь вводит сумму она добавляется к счету
@@ -21,10 +53,11 @@
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
 
+import os
 
+import json
 
-
-
+import datetime
 
 def input_positiv():
     """
@@ -51,32 +84,157 @@ def input_positiv():
     return int_plus
 
 
-def refill(acc, history):
+def get_account():
+    """
+    функция для получения остатка из файла account_history.json
+    :return:
+    """
+    FILE_NAME = 'account_history.json'
+    with open(FILE_NAME, 'r') as f:
+        operations = json.load(f)
+        # актуальный остаток на счете лежит в последней строке, последнем элементе списка
+        accont_value = int(operations[-1][-1])
+
+    return accont_value
+
+
+def report_string(str_lst):
+    """
+    Функция формирует строку стандартного печатного отчета об операциях
+    :param str_lst: список по меньшей мере из 4 строк
+           str_lst[0] - строка - дата и время операции.
+                          Если пустая строка, то присваивается текущее время
+           str_lst[1] - строка - содержание операции
+           str_lst[2] - сумма операции
+           str_lst[3] - остаток после совершения операции
+    :return: возвращает унифицированную строку отчета по движению средств с полями стандартной ширины
+    """
+
+    # фиксированная ширина полей
+    STR_LEN = [20, 50, 16, 16]
+
+    # Формирование подстроки с датой и временем
+    if len(str_lst[0]) == 0:     # если время не передано, то берем текущее время
+        str_lst[0] = datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S')
+    else:
+        str_lst[0] = str(str_lst[0])
+
+    # дополнение/обрезание строки до фиксированной ширины
+    for i in range(4):
+        if i == 1:    # по левому краю выравниваем текст
+            str_lst[i] = str_lst[i].ljust(STR_LEN[i])[:STR_LEN[i]]
+        else:         # по правому краю выравниваем цифры и дату
+            str_lst[i] = str_lst[i].rjust(STR_LEN[i])[:STR_LEN[i]]
+
+    # формирование итоговой строки
+    line_str1 = '-'*(sum(STR_LEN) + 5) + '\n'
+    line_str2 = chr(124)
+    for i in range(4):
+        line_str2 = line_str2 + str_lst[i] + chr(124)
+    listing_str = line_str1 +line_str2
+
+    return listing_str
+
+
+def operation_to_file(str_lst):
+   """
+   добавляет в файл новую строку с операцией
+   :param str_lst: список по меньшей мере из 4 строк
+           str_lst[0] - строка - дата и время операции
+           str_lst[1] - строка - содержание операции
+           str_lst[2] - сумма операции
+           str_lst[3] - остаток после совершения операции
+   :return:
+   """
+
+   FILE_NAME = 'account_history.json'
+   # вначале прочитаем весь список списков операций
+   with open(FILE_NAME, 'r') as f:
+       operations = json.load(f)
+
+   # добавим последнюю переданную в функцию строку
+   operations.append(str_lst[:4])
+
+   # перезапишем обратно в файл весь массив
+   with open(FILE_NAME, 'w') as f:
+       json.dump(operations, f)
+
+   return None
+
+
+def initialisation():
+     """
+     функция создает файл 'account_history.data'
+     для хранения истории операций и остатков по счету с нулевым остатком
+     затем вписывает в файл первую строку с нулевым остатком по счету.
+     :return:
+     """
+
+     operation =  [
+         datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S'), # дата
+         'Открытие счета', # содержание операции
+         '0',           # сумма операции
+         '0'            # остаток на счету
+     ]
+     operation_lst = []
+     operation_lst.append(operation)
+
+     FILE_NAME = 'account_history.json'
+
+     # инициализация происходит однократно
+     if not os.path.exists(FILE_NAME):
+         with open(FILE_NAME, 'w') as f:
+             json.dump(operation_lst, f)
+
+     return None
+
+
+def refill():
     """
     Функция пополняет счет
-    :param acc: входящий остаток
-    :param hist: входящая история
-    :return: обновленные  acc, hist
+    Перезаписывает файл с историей, обновляет остаток
     """
+    # строка для записи в файл
+    str_lst = []
+
+    acc = get_account()
+
+    # запросить сумму для внесения на счет
     print('\nТекущий остаток: ', str(acc))
     print('Внесение денежных средств')
     money_refilled = input_positiv()
+
+    # увеличить остаток на счете
     acc += money_refilled
-    txt = 'Внесено ' + str(money_refilled) + '. Текущий остаток: ' + str(acc)
-    print(txt)
-    history.append(txt)
-    return acc, history
+
+    # сформировать строку отчета
+    txt = datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S')  # дата и время в нулевой элемент списка
+    str_lst.append(txt)
+    txt = 'Пополнение счета. Внесено ' + str(money_refilled) + ' пиастров.'        # текст: содержание операции
+    str_lst.append(txt)
+    str_lst.append(str(money_refilled))                          # внесено
+    str_lst.append(str(acc))                                     # новый остаток
+
+    print(report_string(str_lst))
+    operation_to_file(str_lst)
+
+    return None
 
 
-def buy(acc, history):
+
+def buy():
     """
-    Функция оформляет покупки
-    :param acc: входящий остаток
-    :param hist: входящая история
-    :return: обновленные  acc, hist
+    Функция оформляет покупки и записывает их в файл
     """
-    print('\nТекущий остаток: ', str(acc))
+
+    # строка для записи в файл
+    str_lst = []
+
+    acc = get_account()
+
+    print('\nТекущий остаток: ', acc)
     print('Покупка    Введите сумму покупки')
+
     repeat_loop = True
     while repeat_loop:
         money_to_pay = input_positiv()
@@ -91,23 +249,42 @@ def buy(acc, history):
     sku = input('Введите название покупки: ')
 
     acc -= money_to_pay
+
+    # сформировать строку отчета
+    txt = datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S')  # дата и время в нулевой элемент списка
+    str_lst.append(txt)
+    txt = 'Покупка ' + sku + ' на сумму ' + str(money_to_pay)  + ' пиастров.'  # текст: содержание операции
+    str_lst.append(txt)
+    str_lst.append(str(money_to_pay * (-1)))  # внесено
+    str_lst.append(str(acc))  # новый остаток
+
+    print(report_string(str_lst))
+    operation_to_file(str_lst)
+
     txt = 'Покупка ' + sku + ' на сумму ' + str(money_to_pay) + '. Текущий остаток: ' + str(acc)
     print(txt)
-    history.append(txt)
-    return acc, history
+
+    return None
 
 
-def get_report(acc, history):
+def get_report():
     """
-    Функция выдает отчет о совершенных операциях и состоянии счета.
-    :param acc: входящий остаток
-    :param hist: входящая история
-    :return: обновленные  acc, hist
+    Функция печатает отчет о совершенных операциях и состоянии счета.
     """
     print('\nВыписка со счета:')
-    for h in history:
-        print(h)
-    return acc, history
+
+    FILE_NAME = 'account_history.json'
+    # вначале прочитаем весь список списков операций
+    with open(FILE_NAME, 'r') as f:
+        operations = json.load(f)
+
+    # печать заголовка таблицы
+    head = report_string(['Дата и время', 'Содержание операции', 'Сумма операции', 'Остаток на счете'])
+    print(head)
+
+    for line in operations:
+        print(report_string(line))
+
 
 
 def go_out(acc=0, history=[]):
@@ -131,12 +308,10 @@ def play_bank(account=0, history=[]):
     3. история покупок
     4. выход
     :param account: входящий остаток на счете в банке
-    :return account: 
+    :return None
     """
-    # история операций
-    history.append('*' * 8)
-    history.append('')
-    history.append('Начальный остаток = ' + str(account))
+    # создание файла с историей и остатком на счете = 0  (если его нет)
+    initialisation()
 
     # обрабатываемые выборы пользователя и действия
     valid_choices = {
@@ -162,11 +337,12 @@ def play_bank(account=0, history=[]):
         choice = input('\nВведите номер действия: ')
         if choice in valid_choices.keys():
             f = valid_choices[choice]
-            account, history = f(account, history)
+            f()
             if choice == '4':
                 repeat_loop = False
         else:
             print('Неверный выбор.\nПриходите завтра!')
             repeat_loop = False
 
-    return account
+    return None
+
